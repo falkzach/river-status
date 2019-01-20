@@ -1,0 +1,7 @@
+version: '3'
+services:
+  web:
+    build: .
+    command: yarn dev
+    ports:
+      - "80:3000"

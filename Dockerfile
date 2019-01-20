@@ -20,9 +20,3 @@ RUN cd ..
 
 #Bundle app source
 COPY . .
-
-RUN ls
-RUN ls ./client
-
-EXPOSE 3000
-CMD [ "yarn", "dev" ]

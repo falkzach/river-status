@@ -12,6 +12,5 @@ yarn dev
 ```
 ## Deployment
 ```
-docker build -t falkzach/river-status .
-docker run -p 80:3000 -d falkzach/river-status
+docker-compose up
 ```

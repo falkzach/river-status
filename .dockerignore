@@ -1,4 +1,6 @@
 .dockerignore
+docker-compose.yml
+Dockerfile
 .env
 */.git
 .git
@@ -7,3 +9,4 @@
 */node_modules
 node_modules/
 yarn-error.log
+*/yarn-error.log
