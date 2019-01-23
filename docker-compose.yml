@@ -1,7 +1,34 @@
 version: '3'
 services:
-  web:
-    build: .
-    command: yarn dev
+
+  # backend api container
+  backend:
+    container_name: river-status-backend
+    build: ./backend
+    command: yarn server
+    expose:
+      - 5000
     ports:
-      - "80:3000"
+      - 5000:5000
+    volumes:
+      - ./backend:/usr/src/backend
+
+  # react frontend container
+  frontend:
+    container_name: river-status-frontend
+    build: ./frontend
+    command: yarn start
+    expose:
+      - 80
+    ports:
+      - 80:3000
+    volumes:
+      - ./frontend/src:/usr/src/frontend/src
+      - ./frontend/public:/usr/src/frontend/public
+    links:
+      - backend
+
+  # redis container
+  redis:
+    container_name: river-status-redis
+    image:  redis:latest

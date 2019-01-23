@@ -1,0 +1,6 @@
+.dockerignore
+Dockerfile
+test.json
+.gitignore
+node_modules/
+yarn-error.log

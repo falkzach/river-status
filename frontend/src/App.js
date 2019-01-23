@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-// import logo from './logo.svg';
 import './App.css';
-import { async } from 'rxjs/internal/scheduler/async';
 
 class RiverStatus extends React.Component {
     constructor(props) {
