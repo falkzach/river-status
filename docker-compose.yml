@@ -7,9 +7,9 @@ services:
     build: ./backend
     command: yarn server
     expose:
-      - 5000
+      - ${BACKEND_PORT}
     ports:
-      - 5000:5000
+      - ${BACKEND_PORT}:${BACKEND_PORT}
     volumes:
       - ./backend:/usr/src/backend
 
@@ -19,14 +19,12 @@ services:
     build: ./frontend
     command: yarn start
     expose:
-      - 80
+      - ${APP_PORT}
     ports:
-      - 80:3000
+      - ${APP_PORT}:${FRONTEND_PORT}
     volumes:
       - ./frontend/src:/usr/src/frontend/src
       - ./frontend/public:/usr/src/frontend/public
-    links:
-      - backend
 
   # redis container
   redis:
