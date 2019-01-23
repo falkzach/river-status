@@ -25,6 +25,8 @@ services:
     volumes:
       - ./frontend/src:/usr/src/frontend/src
       - ./frontend/public:/usr/src/frontend/public
+    depends_on:
+      - backend
 
   # redis container
   redis:
