@@ -78,12 +78,12 @@ app.get('/api/rivers/clarkfork', (req, res) => {
     
 });
 
-app.get('/api/logbook', (req, res) => {
+app.get('/api/log', (req, res) => {
     res.send({
         _links: {
-            self: { href: "/api/logbook" },
+            self: { href: "/api/log" },
         },
-        headline: "Maintaining a River Log is important for demonstrating competance both as a client and a guide!"
+        headline: "Maintaining a River Log is important for demonstrating competance on big water both as a client and a guide! This tool makes it easy to keep track of your days on the water."
     });
 });
 

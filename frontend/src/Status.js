@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 
 import './App.css';
+import Nav from './Nav.js';
 
-class RiverStatus extends React.Component {
+class RiverStatus extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -30,10 +31,14 @@ class RiverStatus extends React.Component {
         });
 
         return (
-            <div className="river-status container">
-                <h1>River Status</h1>
-                <p>{this.props.headline}</p>
-                {Object.keys(rivers).map(river=> rivers[river])}
+            <div className="river-status wrapper">
+                <header className='main-head'>River Status and Logbook</header>
+                <Nav />
+                <div className='content'>
+                    <h1>River Status</h1>
+                    <p>{this.props.headline}</p>
+                    {Object.keys(rivers).map(river=> rivers[river])}
+                </div>
             </div>
         );
     }

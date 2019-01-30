@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { async } from 'rxjs/internal/scheduler/async';
+
+import './App.css';
+import Nav from './Nav.js';
 
 class Log extends Component {
     constructor(props) {
@@ -16,7 +18,7 @@ class Log extends Component {
     }
 
     getLogbook = async() => {
-        const response = await fetch('/api/logbook');
+        const response = await fetch('/api/log');
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
@@ -24,28 +26,33 @@ class Log extends Component {
 
     render() {
         var entires = {};
+        console.log(this.state)
 
         return (
-            <div className="river-log container">
-                <h1>River Log</h1>
-                <p>{this.props.headline}</p>
-                <div>
-                    <button>Add</button>
+            <div className="river-log wrapper">
+                <header className='main-head'>River Status and Logbook</header>
+                <Nav />
+                <div className='content'>
+                    <h1>River Log</h1>
+                    <p>{this.state.headline}</p>
+                    <div>
+                        <button>Add</button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>River</th>
+                                <th>Section</th>
+                                <th>Flow</th>
+                                <th>Craft</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {}
+                        </tbody>
+                    </table>
                 </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>River</th>
-                            <th>Section</th>
-                            <th>Flow</th>
-                            <th>Craft</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {}
-                    </tbody>
-                </table>
             </div>
         );
     }
