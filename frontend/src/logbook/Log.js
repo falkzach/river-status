@@ -1,11 +1,21 @@
 import React, { Component } from 'react';
 
+import {Button, Icon, Input} from 'semantic-ui-react'
+
 class Log extends Component {
     constructor(props) {
         super(props);
         this.state = {
 
-        }
+        };
+        this._onAddEntryClick = this._onAddEntryClick.bind(this);
+    }
+
+    _onAddEntryClick() {
+        this.setState({
+            showAddEntryForm: true,
+        });
+        
     }
 
     componentDidMount() {
@@ -29,9 +39,7 @@ class Log extends Component {
             <div className='content'>
                 <h1>River Log</h1>
                 <p>{this.state.headline}</p>
-                <div>
-                    <button>Add</button>
-                </div>
+
                 <table>
                     <thead>
                         <tr>
@@ -46,6 +54,21 @@ class Log extends Component {
                         {}
                     </tbody>
                 </table>
+
+                <div>
+                    <Button size='small' color='green' onClick={this._onAddEntryClick}>
+                        <Icon name='add' />
+                        Add New Entry
+                    </Button>
+                </div>
+                <div>
+                    {
+                        this.state.showAddEntryForm ?
+                        <AddEntry /> :
+                        null
+                    }
+                </div>
+
             </div>
         );
     }
@@ -84,5 +107,50 @@ class Entry extends React.Component {
         );
     }
 };
+
+class AddEntry extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            date: '',
+            river: '',
+            section: '',
+            flow: '',
+            craft: '',
+        }
+    }
+
+    componentDidMount() {
+
+    }
+
+    postEntry() {
+
+    }
+
+    render() {
+        return (
+            <div>
+                <div className='ui input'>
+                    <Input type='date' placeholder='Date' />
+                    <Input type='text' placeholder='River' />
+                    <Input type='text' placeholder='Section' />
+                    <Input type='number' placeholder='Flow' step='1.0' />
+                    <Input type='text' placeholder='Craft' />
+                </div>
+                <div>
+                    <Button size='small' color='blue' >
+                        <Icon name='add' />
+                        Submit
+                    </Button>
+                    <Button size='small' color='yellow' >
+                        <Icon name='cancel' />
+                        Submit
+                    </Button>
+                </div>
+            </div>
+        );
+    }
+}
 
 export default Log;

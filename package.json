@@ -1,19 +1,19 @@
 {
-    "name": "river-status",
-    "version": "0.1.0",
-    "private": true,
-    "dependencies": {
-    },
-    "devDependencies": {
-      "concurrently": "^4.1.0"
-    },
-    "scripts": {
-      "install-backend": "cd backend && yarn install",
-      "install-frontend": "cd frontend && yarn install",
-      "postinstall": "yarn install-backend && yarn install-frontend",
-      "client": "cd frontend && yarn start",
-      "server": "cd backend && yarn server",
-      "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
-    }
+  "name": "river-status",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "semantic-ui-css": "^2.4.1"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.0"
+  },
+  "scripts": {
+    "install-backend": "cd backend && yarn install",
+    "install-frontend": "cd frontend && yarn install",
+    "postinstall": "yarn install-backend && yarn install-frontend",
+    "client": "cd frontend && yarn start",
+    "server": "cd backend && yarn server",
+    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
   }
-  
+}
