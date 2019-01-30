@@ -1,14 +1,21 @@
 import React, {} from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 
-import Log from './Log.js';
-import Status from './Status.js';
+import Log from './logbook/Log.js';
+import Nav from './Nav.js';
+import Status from './status/Status.js';
+
+import './App.css';
 
 const App = () => 
     <BrowserRouter>
-        <div>
+        <div className="river-log wrapper">
+        <header className='main-head'>River Status and Logbook</header>
+        <Nav />
+
         <Route exact path="/" component={Status}/>
         <Route path="/Log" component={Log}/>
+
         </div>
     </BrowserRouter>
 

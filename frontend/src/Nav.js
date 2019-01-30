@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 class Nav extends Component {
     constructor(props) {
@@ -17,8 +17,8 @@ class Nav extends Component {
         return(
             <nav className='main-nav'>
                 <ul>
-                    <li><Link to="/">River Status</Link></li>
-                    <li><Link to="Log">River Log</Link></li>
+                    <li><NavLink activeClassName='is-active' to="/">River Status</NavLink></li>
+                    <li><NavLink to="Log">River Log</NavLink></li>
                 </ul>
             </nav>
         );

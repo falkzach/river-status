@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 
-import './App.css';
-import Nav from './Nav.js';
-
 class Log extends Component {
     constructor(props) {
         super(props);
@@ -29,30 +26,26 @@ class Log extends Component {
         console.log(this.state)
 
         return (
-            <div className="river-log wrapper">
-                <header className='main-head'>River Status and Logbook</header>
-                <Nav />
-                <div className='content'>
-                    <h1>River Log</h1>
-                    <p>{this.state.headline}</p>
-                    <div>
-                        <button>Add</button>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>River</th>
-                                <th>Section</th>
-                                <th>Flow</th>
-                                <th>Craft</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {}
-                        </tbody>
-                    </table>
+            <div className='content'>
+                <h1>River Log</h1>
+                <p>{this.state.headline}</p>
+                <div>
+                    <button>Add</button>
                 </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>River</th>
+                            <th>Section</th>
+                            <th>Flow</th>
+                            <th>Craft</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {}
+                    </tbody>
+                </table>
             </div>
         );
     }
