@@ -9,7 +9,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/api/hello', (req, res) => {
-    res.send({ headline: 'Welcome to the unofficial Montana Whitewater River Status Page' });
+    res.send({ headline: 'Welcome to the unofficial western Montana Whitewater River Status Page' });
 });
 
 app.get('/api/rivers', (req, res) => {
@@ -76,6 +76,15 @@ app.get('/api/rivers/clarkfork', (req, res) => {
         });
     });
     
+});
+
+app.get('/api/logbook', (req, res) => {
+    res.send({
+        _links: {
+            self: { href: "/api/logbook" },
+        },
+        headline: "Maintaining a River Log is important for demonstrating competance both as a client and a guide!"
+    });
 });
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
