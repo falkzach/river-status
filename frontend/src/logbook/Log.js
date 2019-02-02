@@ -70,24 +70,26 @@ class Log extends Component {
                 </table>
 
                 <div>
-                    <Button size='small' color='blue' onClick={this._onAddEntryClick}>
-                        <Icon name='add' />
-                        Add New Entry
-                    </Button>
+                    {
+                        !this.state.showAddEntryForm ?
+                        <Button size='small' color='blue' onClick={this._onAddEntryClick}>
+                            <Icon name='add' />
+                            Add New Entry
+                        </Button>
+                        :
+                        <Button size='small' color='yellow' onClick={this._onCancelEntryClick}>
+                            <Icon name='cancel' />
+                            Cancel
+                        </Button>
+                    }
                 </div>
                 <div>
                     {
                         this.state.showAddEntryForm ?
                         <div>
                             <AddEntry /> 
-                            <div>
-                                <Button size='small' color='yellow' onClick={this._onCancelEntryClick}>
-                                    <Icon name='cancel' />
-                                    Cancel
-                                </Button>
-                            </div>
-                        </div>:
-                        null
+                        </div>
+                        :null
                     }
                 </div>
 
