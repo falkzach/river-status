@@ -6,16 +6,31 @@ class Log extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            showAddEntryForm: false,
         };
         this._onAddEntryClick = this._onAddEntryClick.bind(this);
+        this._onPostEntryClick = this._onPostEntryClick.bind(this);
+        this._onCancelEntryClick = this._onCancelEntryClick.bind(this);
     }
 
     _onAddEntryClick() {
         this.setState({
             showAddEntryForm: true,
         });
-        
+    }
+
+    _onPostEntryClick() {
+        console.log('post!');
+        this.setState({
+            showAddEntryForm: false,
+        });
+    }
+
+    _onCancelEntryClick() {
+        console.log('cancel!')
+        this.setState({
+            showAddEntryForm: false,
+        });
     }
 
     componentDidMount() {
@@ -33,7 +48,6 @@ class Log extends Component {
 
     render() {
         var entires = {};
-        console.log(this.state)
 
         return (
             <div className='content'>
@@ -56,7 +70,7 @@ class Log extends Component {
                 </table>
 
                 <div>
-                    <Button size='small' color='green' onClick={this._onAddEntryClick}>
+                    <Button size='small' color='blue' onClick={this._onAddEntryClick}>
                         <Icon name='add' />
                         Add New Entry
                     </Button>
@@ -64,7 +78,15 @@ class Log extends Component {
                 <div>
                     {
                         this.state.showAddEntryForm ?
-                        <AddEntry /> :
+                        <div>
+                            <AddEntry /> 
+                            <div>
+                                <Button size='small' color='yellow' onClick={this._onCancelEntryClick}>
+                                    <Icon name='cancel' />
+                                    Cancel
+                                </Button>
+                            </div>
+                        </div>:
                         null
                     }
                 </div>
@@ -112,43 +134,51 @@ class AddEntry extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            date: '',
-            river: '',
-            section: '',
-            flow: '',
-            craft: '',
+            formValues: {}
         }
+
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentDidMount() {
 
     }
 
-    postEntry() {
+    handleChange(event) {
+        event.preventDefault();
+        let formValues = this.state.formValues;
+        let name = event.target.name;
+        let value = event.target.value;
 
+        formValues[name] = value;
+
+        this.setState({formValues})
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        alert("post!");
     }
 
     render() {
         return (
-            <div>
-                <div className='ui input'>
-                    <Input type='date' placeholder='Date' />
-                    <Input type='text' placeholder='River' />
-                    <Input type='text' placeholder='Section' />
-                    <Input type='number' placeholder='Flow' step='1.0' />
-                    <Input type='text' placeholder='Craft' />
-                </div>
-                <div>
-                    <Button size='small' color='blue' >
-                        <Icon name='add' />
-                        Submit
-                    </Button>
-                    <Button size='small' color='yellow' >
-                        <Icon name='cancel' />
-                        Submit
-                    </Button>
-                </div>
-            </div>
+            <form className='form' id='add-entry-form' onSubmit={this.handleSubmit}>
+                <label>Date:</label>
+                <Input type='date' id='entry-date' placeholder='Date' required value={this.state.formValues.date} onChange={this.handleChange} />
+                <label>River:</label>
+                <Input type='text' id='entry-river' placeholder='River' required value={this.state.formValues.river} onChange={this.handleChange} />
+                <label>Section:</label>
+                <Input type='text' id='entry-section' placeholder='Section' required value={this.state.formValues.section} onChange={this.handleChange} />
+                <label>Flow:</label>
+                <Input type='number' id='entry-flow' placeholder='Flow' step='1.0' required value={this.state.formValues.flow} onChange={this.handleChange} />
+                <label>Craft:</label>
+                <Input type='text' id='entry-craft' placeholder='Craft' required value={this.state.craft} />
+                <Button type='submit' form='add-entry-form' value='Submit' size='small' color='green' >
+                    <Icon name='add' />
+                    Add
+                </Button>
+            </form>
         );
     }
 }

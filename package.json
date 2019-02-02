@@ -2,9 +2,7 @@
   "name": "river-status",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "semantic-ui-css": "^2.4.1"
-  },
+  "dependencies": {},
   "devDependencies": {
     "concurrently": "^4.1.0"
   },

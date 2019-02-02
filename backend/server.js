@@ -87,4 +87,12 @@ app.get('/api/log', (req, res) => {
     });
 });
 
+app.get('/api/log/entries', (req, res) => {
+    res.send({
+        _links: {
+            self: { href: "/api/log/entries" },
+        },
+    });
+});
+
 app.listen(port, () => console.log(`Listening on port ${port}`));

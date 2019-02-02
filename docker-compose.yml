@@ -12,6 +12,8 @@ services:
       - ${BACKEND_PORT}:${BACKEND_PORT}
     volumes:
       - ./backend:/usr/src/backend
+    depends_on:
+      - mariadb
 
   # react frontend container
   frontend:
@@ -20,13 +22,29 @@ services:
     command: yarn start
     expose:
       - ${APP_PORT}
+      - ${DEV_WEBSOCKET_PORT}
     ports:
       - ${APP_PORT}:${FRONTEND_PORT}
+      - ${DEV_WEBSOCKET_PORT}:${DEV_WEBSOCKET_PORT}
     volumes:
       - ./frontend/src:/usr/src/frontend/src
       - ./frontend/public:/usr/src/frontend/public
     depends_on:
       - backend
+
+  # mariadb
+  mariadb:
+    container_name: river-status-mariadb
+    image:  mariadb:latest
+    expose:
+      - ${MARIADB_PORT}
+    ports:
+      - ${MARIADB_PORT}:${MARIADB_PORT}
+    environment:
+      MYSQL_ROOT_PASSWORD: changeme
+      MYSQL_DATABASE: river_log_db
+      MYSQL_USER: river_log_db
+      MYSQL_PASSWORD: changeme
 
   # redis container
   redis:
