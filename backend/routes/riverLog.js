@@ -15,6 +15,16 @@ router.get('/entries', (req, res) => {
         _links: {
             self: { href: "/api/log/entries" },
         },
+        entries: {}
+    });
+});
+
+router.route('/entries/add').post((req, res) => {
+    console.log(req);
+    res.send({
+        _links: {
+            self: { href: "/api/log/entry/add" },
+        },
     });
 });
 

@@ -20,14 +20,12 @@ class Log extends Component {
     }
 
     _onPostEntryClick() {
-        console.log('post!');
         this.setState({
             showAddEntryForm: false,
         });
     }
 
     _onCancelEntryClick() {
-        console.log('cancel!')
         this.setState({
             showAddEntryForm: false,
         });
@@ -37,10 +35,21 @@ class Log extends Component {
         this.getLogbook()
             .then(res => this.setState(res))
             .catch(err => console.log(err))
+
+        this.getEntries()
+            .then(res => this.setState(res))
+            .catch(err => console.log(err))
     }
 
     getLogbook = async() => {
         const response = await fetch('/api/log');
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body;
+    }
+
+    getEntries= async() => {
+        const response = await fetch('/api/log/entries');
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
@@ -160,7 +169,11 @@ class AddEntry extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        alert("post!");
+        const data = new FormData(event.target);
+        fetch(process.env.API_URL + '/api/log/entries/add', {
+            method: 'POST',
+            body: data,
+          });
     }
 
     render() {

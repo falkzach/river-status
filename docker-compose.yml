@@ -36,6 +36,9 @@ services:
       - ./frontend/public:/usr/src/frontend/public
     depends_on:
       - backend
+    environment:
+      API_URL: ${BACKEND_URL}
+      API_PORT: ${BACKEND_PORT}
 
   # mariadb
   mariadb:

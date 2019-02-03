@@ -31,7 +31,9 @@ class RiverStatus extends Component {
             <div className='content'>
                 <h1>River Status</h1>
                 <p>{this.props.headline}</p>
-                {Object.keys(rivers).map(river=> rivers[river])}
+                <div className='ui cards'>
+                    {Object.keys(rivers).map(river=> rivers[river])}
+                </div>
             </div>
         );
     }
@@ -63,10 +65,18 @@ class River extends React.Component {
 
     render() {
         return (
-            <div className="river">
-                <h2>{this.state.name}</h2>
-                <p>Flow: {this.state.flow}</p>
-                <p>Height: {this.state.height}</p>
+            <div className='ui card' id={'river-' + this.state.name}>
+                <div className="content">
+                    <div className='header'><i className="tag icon"></i>{this.state.name}</div>
+                    <div className='meta'>
+                        
+                    </div>
+                    <div clasname='description'>
+                        <div className='ui label blue'>Flow: {this.state.flow}</div>
+                        <div className='ui label blue'>Height: {this.state.height}</div>
+                    </div>
+                </div>
+
             </div>
         );
     }
