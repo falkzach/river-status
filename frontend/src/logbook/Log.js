@@ -32,7 +32,7 @@ class Log extends Component {
             .catch(err => console.log(err))
 
         this.getEntries()
-            .then(res => console.log(res))
+            .then(res => this.setState(res))
             .catch(err => console.log(err))
 
         
@@ -142,7 +142,13 @@ class AddEntry extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            formValues: {}
+            formValues: {
+                date: '',
+                river: '',
+                section: '',
+                flow: '',
+                craft: '',
+            }
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
