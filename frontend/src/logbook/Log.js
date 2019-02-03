@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import {Button, Icon, Input} from 'semantic-ui-react'
 
+let today = new Date();
+
 class Log extends Component {
     constructor(props) {
         super(props);
@@ -159,7 +161,7 @@ class AddEntry extends React.Component {
     handleChange(event) {
         event.preventDefault();
         let formValues = this.state.formValues;
-        let name = event.target.name;
+        let name = event.target.id;
         let value = event.target.value;
 
         formValues[name] = value;
@@ -169,10 +171,10 @@ class AddEntry extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        const data = new FormData(event.target);
+        console.log(this.state.formValues)
         fetch('/api/log/entries/add', {
             method: 'POST',
-            body: data,
+            body: {test: 'test'},
           });
     }
 
@@ -188,7 +190,7 @@ class AddEntry extends React.Component {
                 <label>Flow:</label>
                 <Input type='number' id='entry-flow' placeholder='Flow' step='1.0' required value={this.state.formValues.flow} onChange={this.handleChange} />
                 <label>Craft:</label>
-                <Input type='text' id='entry-craft' placeholder='Craft' required value={this.state.craft} />
+                <Input type='text' id='entry-craft' placeholder='Craft' required value={this.state.craft} onChange={this.handleChange} />
                 <Button type='submit' form='add-entry-form' value='Submit' size='small' color='green' >
                     <Icon name='add' />
                     Add

@@ -1,4 +1,5 @@
-var express = require('express');
+const express = require('express');
+const bodyParser = require('body-parser');
 var router = express.Router();
 
 router.get('/', (req, res) => {
@@ -20,6 +21,7 @@ router.get('/entries', (req, res) => {
 });
 
 router.route('/entries/add').post((req, res) => {
+    console.log(req.body);
     res.send({
         _links: {
             self: { href: "/api/log/entry/add" },

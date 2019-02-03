@@ -8,6 +8,8 @@ WORKDIR /usr/src/backend
 COPY package.json ./
 COPY yarn.lock ./
 
+ENV CHOKIDAR_USEPOLLING true
+
 RUN yarn install
 
 ENTRYPOINT yarn db-migrate up && yarn server
