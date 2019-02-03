@@ -19,6 +19,8 @@ services:
       MARIADB_DATABASE: ${MARIADB_DATABASE}
       MARIADB_USER: ${MARIADB_USERNAME}
       MARIADB_PASSWORD: ${MARIADB_PASSWORD}
+      MARIADB_HOST: mariadb
+      MARIADB_PORT: ${MARIADB_PORT}
 
   # react frontend container
   frontend:
@@ -37,7 +39,6 @@ services:
     depends_on:
       - backend
     environment:
-      API_URL: ${BACKEND_URL}
       API_PORT: ${BACKEND_PORT}
 
   # mariadb

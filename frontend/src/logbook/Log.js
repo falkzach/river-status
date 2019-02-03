@@ -11,19 +11,12 @@ class Log extends Component {
             showAddEntryForm: false,
         };
         this._onAddEntryClick = this._onAddEntryClick.bind(this);
-        this._onPostEntryClick = this._onPostEntryClick.bind(this);
         this._onCancelEntryClick = this._onCancelEntryClick.bind(this);
     }
 
     _onAddEntryClick() {
         this.setState({
             showAddEntryForm: true,
-        });
-    }
-
-    _onPostEntryClick() {
-        this.setState({
-            showAddEntryForm: false,
         });
     }
 
@@ -39,8 +32,10 @@ class Log extends Component {
             .catch(err => console.log(err))
 
         this.getEntries()
-            .then(res => this.setState(res))
+            .then(res => console.log(res))
             .catch(err => console.log(err))
+
+        
     }
 
     getLogbook = async() => {
@@ -161,7 +156,7 @@ class AddEntry extends React.Component {
     handleChange(event) {
         event.preventDefault();
         let formValues = this.state.formValues;
-        let name = event.target.id;
+        let name = event.target.name;
         let value = event.target.value;
 
         formValues[name] = value;
@@ -174,7 +169,14 @@ class AddEntry extends React.Component {
         console.log(this.state.formValues)
         fetch('/api/log/entries/add', {
             method: 'POST',
-            body: {test: 'test'},
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(this.state.formValues),
+          }).then(res => {
+                if (res.status !== 200) {
+
+                } else {
+
+                }
           });
     }
 
@@ -182,15 +184,15 @@ class AddEntry extends React.Component {
         return (
             <form className='form' id='add-entry-form' onSubmit={this.handleSubmit}>
                 <label>Date:</label>
-                <Input type='date' id='entry-date' placeholder='Date' required value={this.state.formValues.date} onChange={this.handleChange} />
+                <Input type='date' id='entry-date' name='date' placeholder='Date' required value={this.state.formValues.date} onChange={this.handleChange} />
                 <label>River:</label>
-                <Input type='text' id='entry-river' placeholder='River' required value={this.state.formValues.river} onChange={this.handleChange} />
+                <Input type='text' id='entry-river' name='river' placeholder='River' required value={this.state.formValues.river} onChange={this.handleChange} />
                 <label>Section:</label>
-                <Input type='text' id='entry-section' placeholder='Section' required value={this.state.formValues.section} onChange={this.handleChange} />
+                <Input type='text' id='entry-section' name='section' placeholder='Section' required value={this.state.formValues.section} onChange={this.handleChange} />
                 <label>Flow:</label>
-                <Input type='number' id='entry-flow' placeholder='Flow' step='1.0' required value={this.state.formValues.flow} onChange={this.handleChange} />
+                <Input type='number' id='entry-flow' name='flow' placeholder='Flow' step='1.0' required value={this.state.formValues.flow} onChange={this.handleChange} />
                 <label>Craft:</label>
-                <Input type='text' id='entry-craft' placeholder='Craft' required value={this.state.craft} onChange={this.handleChange} />
+                <Input type='text' id='entry-craft' name='craft' placeholder='Craft' required value={this.state.craft} onChange={this.handleChange} />
                 <Button type='submit' form='add-entry-form' value='Submit' size='small' color='green' >
                     <Icon name='add' />
                     Add

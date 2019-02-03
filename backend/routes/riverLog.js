@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 var router = express.Router();
+var entry = require('../models/Entry')
+var entryModel = new entry();
 
 router.get('/', (req, res) => {
     res.send({
@@ -12,16 +14,19 @@ router.get('/', (req, res) => {
 });
 
 router.get('/entries', (req, res) => {
+    var results = entryModel.all();
+    console.log(results);
     res.send({
         _links: {
             self: { href: "/api/log/entries" },
         },
-        entries: {}
+        entries: results
     });
 });
 
 router.route('/entries/add').post((req, res) => {
-    console.log(req.body);
+    let data = req.body;
+    entryModel.add(data);
     res.send({
         _links: {
             self: { href: "/api/log/entry/add" },
