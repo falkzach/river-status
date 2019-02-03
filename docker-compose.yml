@@ -14,6 +14,11 @@ services:
       - ./backend:/usr/src/backend
     depends_on:
       - mariadb
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MARIADB_DATABASE}
+      MARIADB_USER: ${MARIADB_USERNAME}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD}
 
   # react frontend container
   frontend:
@@ -41,10 +46,10 @@ services:
     ports:
       - ${MARIADB_PORT}:${MARIADB_PORT}
     environment:
-      MYSQL_ROOT_PASSWORD: changeme
-      MYSQL_DATABASE: river_log_db
-      MYSQL_USER: river_log_db
-      MYSQL_PASSWORD: changeme
+      MYSQL_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MARIADB_DATABASE}
+      MYSQL_USER: ${MARIADB_USERNAME}
+      MYSQL_PASSWORD: ${MARIADB_PASSWORD}
 
   # redis container
   redis:

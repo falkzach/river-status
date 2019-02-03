@@ -25,9 +25,9 @@ router.get('/blackfoot', (req, res, next) => {
             },
             name: name,
             usgs_site_no: site,
-            temp: data.temp.value + data.temp.unit,
-            flow: data.flow.value + data.flow.unit,
-            height: data.height.value + data.height.unit,
+            temp: data.temp.value + ' ' + data.temp.unit,
+            flow: data.flow.value + ' ' + data.flow.unit,
+            height: data.height.value + ' ' + data.height.unit,
         });
     });
 });
@@ -43,9 +43,9 @@ router.get('/bitterroot', (req, res) => {
             },
             name: name,
             usgs_site_no: site,
-            temp: data.temp.value + data.temp.unit,
-            flow: data.flow.value + data.flow.unit,
-            height: data.height.value + data.height.unit,
+            temp: data.temp.value + ' ' + data.temp.unit,
+            flow: data.flow.value + ' ' + data.flow.unit,
+            height: data.height.value + ' ' + data.height.unit,
         });
     });
 });
@@ -61,9 +61,9 @@ router.get('/clarkfork', (req, res) => {
             },
             name: name,
             usgs_site_no: site,
-            temp: data.temp.value + data.temp.unit,
-            flow: data.flow.value + data.flow.unit,
-            height: data.height.value + data.height.unit,
+            temp: data.temp.value + ' ' + data.temp.unit,
+            flow: data.flow.value + ' ' + data.flow.unit,
+            height: data.height.value + ' ' + data.height.unit,
         });
     });
     

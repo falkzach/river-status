@@ -1,0 +1,10 @@
+{
+    "dev": {
+        "driver": "mysql",
+        "user": "river_log",
+        "password": "changeme",
+        "host": "mariadb",
+        "port": 3306,
+        "database": "river_log"
+      }
+}

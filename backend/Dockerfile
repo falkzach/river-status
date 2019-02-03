@@ -9,3 +9,5 @@ COPY package.json ./
 COPY yarn.lock ./
 
 RUN yarn install
+
+ENTRYPOINT yarn db-migrate up && yarn server
