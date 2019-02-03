@@ -19,12 +19,12 @@ class Entry {
 
     }
 
-    all() {
+    all(callback) {
       this.pool.getConnection(function(err, con) {
-        if (err) throw err;
+        if (err) callback(err, null);
         con.query('SELECT * FROM entries', function (err, result, fields) {
-          if (err) throw err;
-          return result;
+          if (err) callback(err, null);
+          callback(null, result);
         });
       });
     }

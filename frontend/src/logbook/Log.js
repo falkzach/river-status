@@ -10,6 +10,7 @@ class Log extends Component {
         this.state = {
             showAddEntryForm: false,
         };
+
         this._onAddEntryClick = this._onAddEntryClick.bind(this);
         this._onCancelEntryClick = this._onCancelEntryClick.bind(this);
     }
@@ -34,8 +35,6 @@ class Log extends Component {
         this.getEntries()
             .then(res => this.setState(res))
             .catch(err => console.log(err))
-
-        
     }
 
     getLogbook = async() => {
@@ -53,7 +52,17 @@ class Log extends Component {
     }
 
     render() {
-        var entires = {};
+        var entries = {};
+        // Object.keys(this.state.entries).forEach(entry => {
+        //     entries[entry.id] = 
+        //     <Entry 
+        //         date={entry.date} 
+        //         river={entry.river} 
+        //         section={entry.section}
+        //         flow={entry.flow}
+        //         craft={entry.craft}>
+        //     </Entry>
+        // });
 
         return (
             <div className='content'>
@@ -71,7 +80,7 @@ class Log extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {}
+                    {Object.keys(entries).map(entry=> entries[entry])}
                     </tbody>
                 </table>
 
@@ -109,11 +118,11 @@ class Entry extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            date: '',
-            river: '',
-            section: '',
-            flow: '',
-            craft: '',
+            date: props.date,
+            river: props.river,
+            section: props.section,
+            flow: props.flow,
+            craft: props.craft,
         }
     }
 

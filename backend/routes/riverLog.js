@@ -14,14 +14,20 @@ router.get('/', (req, res) => {
 });
 
 router.get('/entries', (req, res) => {
-    var results = entryModel.all();
-    console.log(results);
-    res.send({
-        _links: {
-            self: { href: "/api/log/entries" },
-        },
-        entries: results
-    });
+     entryModel.all(function (err, result) {
+         if (err) console.log("Database error!");
+         else {
+            res.send({
+                _links: {
+                    self: { href: "/api/log/entries" },
+                },
+                entries: result
+            });
+         }
+     });
+
+
+
 });
 
 router.route('/entries/add').post((req, res) => {
