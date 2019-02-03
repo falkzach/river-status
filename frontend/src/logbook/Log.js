@@ -170,7 +170,7 @@ class AddEntry extends React.Component {
     handleSubmit(event) {
         event.preventDefault();
         const data = new FormData(event.target);
-        fetch(process.env.API_URL + '/api/log/entries/add', {
+        fetch('/api/log/entries/add', {
             method: 'POST',
             body: data,
           });
