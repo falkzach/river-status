@@ -1,0 +1,15 @@
+version: '3'
+services:
+
+  # production api container
+  backend:
+    command: node server
+    environment:
+      PRODUCTION: 'true'
+      CHOKIDAR_USEPOLLING: 'false'
+
+  # production react frontend container
+  frontend:
+    command: yarn build
+    environment:
+      CHOKIDAR_USEPOLLING: 'false'

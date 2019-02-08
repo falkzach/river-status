@@ -8,8 +8,4 @@ WORKDIR /usr/src/backend
 COPY package.json ./
 COPY yarn.lock ./
 
-ENV CHOKIDAR_USEPOLLING true
-
 RUN yarn install
-
-ENTRYPOINT yarn migrate && yarn server

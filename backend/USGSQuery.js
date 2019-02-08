@@ -29,10 +29,10 @@ class USGSQuery {
     
     build_query_url() {
         this.url = this.base_url
-        + "format=" + this.format
-        + "&sites=" + this.site
-        + "&parameterCd=" + this.parameters
-        + "&siteStatus=" + this.sitesStatus;
+            + "format=" + this.format
+            + "&sites=" + this.site
+            + "&parameterCd=" + this.parameters
+            + "&siteStatus=" + this.sitesStatus;
     }
 
     query_redis(callback) {
@@ -96,7 +96,6 @@ class USGSQuery {
         });
     }
 
-    //TODO: redis hashes are incorrect because of `this` problems, refactor this method to fix call back scope problems
     get(site, callback) {
         this.site = site;
         this.build_query_url();
@@ -112,8 +111,6 @@ class USGSQuery {
                 callback(data);
             }
         });
-
-
     }
 }
 

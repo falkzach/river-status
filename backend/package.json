@@ -11,7 +11,7 @@
     "redis": "^2.8.0"
   },
   "scripts": {
-    "server": "nodemon server.js",
-    "migrate": "db-migrate up"
+    "dev": "db-migrate up && nodemon server.js",
+    "server": "serve -s build server.js"
   }
 }

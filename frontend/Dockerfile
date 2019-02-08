@@ -8,6 +8,4 @@ WORKDIR /usr/src/frontend
 COPY package.json ./
 COPY yarn.lock ./
 
-ENV CHOKIDAR_USEPOLLING true
-
 RUN yarn install
