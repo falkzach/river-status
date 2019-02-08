@@ -39,7 +39,6 @@ class USGSQuery {
         try {
             let hash = 'river-status/' + this.site;
             this.redis_client.get(hash, function(err, reply) {
-                console.log("querying redis for key ")
                 var data = null;
                 if (reply !== null) {
                     data = JSON.parse(reply);
@@ -55,7 +54,6 @@ class USGSQuery {
     set_redis(data) {
         try {
             let hash = 'river-status/' + this.site;
-            console.log("setting redis");
             this.redis_client.set(hash, JSON.stringify(data), 'EX', 30);
         } catch (err) {
             console.log("Error setting redis cache " + hash + ": " + value + "\n");
