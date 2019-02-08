@@ -6,14 +6,13 @@ services:
     container_name: river-status-backend
     build: ./backend
     command: yarn server
-    expose:
-      - ${BACKEND_PORT}
     ports:
       - ${BACKEND_PORT}:${BACKEND_PORT}
     volumes:
       - ./backend:/usr/src/backend
     depends_on:
       - mariadb
+      - redis
     environment:
       MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
       MARIADB_DATABASE: ${MARIADB_DATABASE}
@@ -21,15 +20,14 @@ services:
       MARIADB_PASSWORD: ${MARIADB_PASSWORD}
       MARIADB_HOST: mariadb
       MARIADB_PORT: ${MARIADB_PORT}
+      REDIS_HOST: redis
+      REDIS_PORT: ${REDIS_PORT}
 
   # react frontend container
   frontend:
     container_name: river-status-frontend
     build: ./frontend
     command: yarn start
-    expose:
-      - ${APP_PORT}
-      - ${DEV_WEBSOCKET_PORT}
     ports:
       - ${APP_PORT}:${FRONTEND_PORT}
       - ${DEV_WEBSOCKET_PORT}:${DEV_WEBSOCKET_PORT}
@@ -45,8 +43,6 @@ services:
   mariadb:
     container_name: river-status-mariadb
     image:  mariadb:latest
-    expose:
-      - ${MARIADB_PORT}
     ports:
       - ${MARIADB_PORT}:${MARIADB_PORT}
     environment:
@@ -59,3 +55,8 @@ services:
   redis:
     container_name: river-status-redis
     image:  redis:latest
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - DISABLE_COMMANDS=FLUSHDB,FLUSHALL,CONFIG

@@ -181,7 +181,6 @@ class AddEntry extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        console.log(this.state.formValues)
         fetch('/api/log/entries/add', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},

@@ -1,4 +1,5 @@
 const https = require('https')
+const redis = require("redis");
 
 /*
 TODO: get data from USGS
@@ -18,32 +19,60 @@ class USGSQuery {
         this.parameters = "00060,00065";
         this.sitesStatus = "all";
 
-        this.site = params.site;
+        this.redis_client = redis.createClient({port: process.env.REDIS_PORT, host: process.env.REDIS_HOST});
 
+        this.redis_client.on('error', function(err) {
+            console.log('Error in redis client:');
+            console.log(err);
+        });
+    }
+    
+    build_query_url() {
         this.url = this.base_url
-            + "format=" + this.format
-            + "&sites=" + this.site
-            + "&parameterCd=" + this.parameters
-            + "&siteStatus=" + this.sitesStatus;
-
-        this.temp = '';
-        this.flow = '';
-        this.height = '';
-
-        this.temp_unit = '';
-        this.flow_unit = '';
-        this.height_unit = '';
+        + "format=" + this.format
+        + "&sites=" + this.site
+        + "&parameterCd=" + this.parameters
+        + "&siteStatus=" + this.sitesStatus;
     }
 
-    get(callback) {
+    query_redis(callback) {
+        try {
+            let hash = 'river-status/' + this.site;
+            this.redis_client.get(hash, function(err, reply) {
+                console.log("querying redis for key ")
+                var data = null;
+                if (reply !== null) {
+                    data = JSON.parse(reply);
+                }
+                callback(data);
+            });
+        } catch (err) {
+            console.log("Error querying redis")
+            console.log(err)
+        }
+    }
+
+    set_redis(data) {
+        try {
+            let hash = 'river-status/' + this.site;
+            console.log("setting redis");
+            this.redis_client.set(hash, JSON.stringify(data), 'EX', 30);
+        } catch (err) {
+            console.log("Error setting redis cache " + hash + ": " + value + "\n");
+            console.log(err);
+        }
+    }
+
+    query_USGS_api(callback) {
         https.get(this.url, function(res) {
             var body = '';
 
             res.on('data', function(chunk) {
                 body += chunk;
             })
-
+            
             res.on('end', function() {
+                var newDate = new Date();
                 var data = null;
                 try {
                     data = JSON.parse(body);// data empty?
@@ -58,14 +87,35 @@ class USGSQuery {
                         temp: {value: this.temp, unit: this.temp_unit},
                         flow: {value: this.flow, unit: this.flow_unit},
                         height: {value: this.height, unit: this.flow_unit},
+                        query_datetime: newDate.toLocaleString()
                     };
                     callback(data);
-                } catch (e) {
-                    process.stdout.write("Error parsing JSON from " + this.url + "\n");
-                    process.stdout.write(e);
+                } catch (err) {
+                    console.log("Error querying USGS API");
+                    console.log(err);
                 }
             })
         });
+    }
+
+    //TODO: redis hashes are incorrect because of `this` problems, refactor this method to fix call back scope problems
+    get(site, callback) {
+        this.site = site;
+        this.build_query_url();
+
+        let that = this;
+        this.query_redis(function(data) {
+            if (data == null) {
+                that.query_USGS_api(function(data) {
+                    that.set_redis(data);
+                    callback(data);
+                });
+            } else {
+                callback(data);
+            }
+        });
+
+
     }
 }
 

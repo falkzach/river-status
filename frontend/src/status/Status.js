@@ -47,6 +47,7 @@ class River extends React.Component {
             usgs_site_no: '',
             flow: '',
             height: '',
+            query_datetime: '',
         }
     }   
 
@@ -69,7 +70,7 @@ class River extends React.Component {
                 <div className="content">
                     <div className='header'><i className="tag icon"></i>{this.state.name}</div>
                     <div className='meta'>
-                        
+                        <div className='ui label grey'>Updated: {this.state.query_datetime}</div>
                     </div>
                     <div clasname='description'>
                         <div className='ui label blue'>Flow: {this.state.flow}</div>

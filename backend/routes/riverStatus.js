@@ -1,4 +1,4 @@
-var express = require('express');
+const express = require('express');
 var router = express.Router();
 
 const USGSQuery = require('../USGSQuery.js');
@@ -17,8 +17,8 @@ router.get('/', (req, res) => {
 router.get('/blackfoot', (req, res, next) => {
     const site = '12340000';
     const name = 'Blackfoot';
-    var query = new USGSQuery({site: site});
-    query.get(function(data) {
+    var query = new USGSQuery();
+    query.get(site, function(data) {
         res.send({
             _links: {
                 self: { href: "/api/rivers/blackfoot" },
@@ -28,6 +28,7 @@ router.get('/blackfoot', (req, res, next) => {
             temp: data.temp.value + ' ' + data.temp.unit,
             flow: data.flow.value + ' ' + data.flow.unit,
             height: data.height.value + ' ' + data.height.unit,
+            query_datetime: data.query_datetime,
         });
     });
 });
@@ -35,8 +36,8 @@ router.get('/blackfoot', (req, res, next) => {
 router.get('/bitterroot', (req, res) => {
     const site = '12352500';
     const name = 'Bitterroot';
-    var query = new USGSQuery({site: site});
-    query.get(function(data) {
+    var query = new USGSQuery();
+    query.get(site, function(data) {
         res.send({
             _links: {
                 self: { href: "/bitterroot" },
@@ -46,6 +47,7 @@ router.get('/bitterroot', (req, res) => {
             temp: data.temp.value + ' ' + data.temp.unit,
             flow: data.flow.value + ' ' + data.flow.unit,
             height: data.height.value + ' ' + data.height.unit,
+            query_datetime: data.query_datetime,
         });
     });
 });
@@ -53,8 +55,8 @@ router.get('/bitterroot', (req, res) => {
 router.get('/clarkfork', (req, res) => {
     const site = '12353000'
     const name = 'Clarkfork'
-    var query = new USGSQuery({site: site});
-    query.get(function(data) {
+    var query = new USGSQuery();
+    query.get(site, function(data) {
         res.send({
             _links: {
                 self: { href: "/api/rivers/clarkfork" },
@@ -64,6 +66,7 @@ router.get('/clarkfork', (req, res) => {
             temp: data.temp.value + ' ' + data.temp.unit,
             flow: data.flow.value + ' ' + data.flow.unit,
             height: data.height.value + ' ' + data.height.unit,
+            query_datetime: data.query_datetime,
         });
     });
     
