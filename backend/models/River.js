@@ -37,6 +37,16 @@ class River {
         });
       });
     }
+
+    get(data, callback) {
+      this.pool.getConnection((err, con) => {
+        if (err) callback(err, null);
+        con.query(`SELECT * FROM rivers WHERE id=${data.id}`, (err, result, fields) => {
+          if (err) callback(err, null);
+          callback(null, result);
+        });
+      });
+    }
 }
 
 module.exports = River;

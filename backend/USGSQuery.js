@@ -75,7 +75,7 @@ class USGSQuery {
                 var data = null;
                 try {
                     data = JSON.parse(body);// data empty?
-                    // TODO: write a more sophisticated parser
+                    // TODO: write a more sophisticated parser!
                     // this.temp = data['value']['timeSeries'][0]['values'][0]['value'][0]['value'];
                     this.flow = data['value']['timeSeries'][0]['values'][0]['value'][0]['value'];
                     this.height = data['value']['timeSeries'][1]['values'][0]['value'][0]['value'];

@@ -6,19 +6,18 @@ var river = require('../models/River')
 var riverModel = new river();
 
 var query = new USGSQuery();
+// some sites: 1234000, 12352500, 12353000
+//             12340000,12352500, 12353000
 
 router.get('/', (req, res) => {
-    riverModel.all((err, result) => {
+    riverModel.all((err, response) => {
         if (err) console.log("Database error!");
         else {
             res.send({
                 _links: {
                     self: { href: "/api/rivers" },
-                    blackfoot: { href: "/api/rivers/blackfoot" },
-                    bitterroot: { href: "/api/rivers/bitterroot" },
-                    clarkfork: { href: "/api/rivers/clarkfork" },
                 },
-                rivers: result
+                rivers: response
             });
         }
     });
@@ -31,83 +30,32 @@ router.route('/add').post((req, res) => {
     res.send({
         _links: {
             self: { href: "/api/rivers/add" },
-        },
+        },  
     });
 });
 
-router.route('/usgs/:site_no').get((req, res) => {
-    let site = req.params.site_no;
-    query.get(site, (data) => {
-        res.send({
-            _links: {
-                self: { href: "/api/rivers/" + site },
-            },
-            name: name,
-            usgs_site_no: site,
-            temp: data.temp.value + ' ' + data.temp.unit,
-            flow: data.flow.value + ' ' + data.flow.unit,
-            height: data.height.value + ' ' + data.height.unit,
-            query_datetime: data.query_datetime,
-        });
-    });
-});
+router.route('/:id').get((req, res) => {    
+    riverModel.get({id: req.params.id}, (err, response) => {
+        //TODO: handle empty response
+        let site = response[0].site_no;
+        let name = response[0].name;
+        let state = response[0].state;
 
-router.get('/blackfoot', (req, res, next) => {
-    const site = '12340000';
-    const name = 'Blackfoot';
-    var query = new USGSQuery();
-    query.get(site, (data) => {
-        res.send({
-            _links: {
-                self: { href: "/api/rivers/blackfoot" },
-            },
-            name: name,
-            usgs_site_no: site,
-            temp: data.temp.value + ' ' + data.temp.unit,
-            flow: data.flow.value + ' ' + data.flow.unit,
-            height: data.height.value + ' ' + data.height.unit,
-            query_datetime: data.query_datetime,
+        query.get(site, (data) => {
+            res.send({
+                _links: {
+                    self: { href: "/api/rivers/:id" + site },
+                },
+                name: name,
+                state: state,
+                usgs_site_no: site,
+                temp: data.temp.value + ' ' + data.temp.unit,
+                flow: data.flow.value + ' ' + data.flow.unit,
+                height: data.height.value + ' ' + data.height.unit,
+                query_datetime: data.query_datetime,
+            });
         });
-    });
-});
-
-router.get('/bitterroot', (req, res) => {
-    const site = '12352500';
-    const name = 'Bitterroot';
-    var query = new USGSQuery();
-    query.get(site, (data) => {
-        res.send({
-            _links: {
-                self: { href: "/bitterroot" },
-            },
-            name: name,
-            usgs_site_no: site,
-            temp: data.temp.value + ' ' + data.temp.unit,
-            flow: data.flow.value + ' ' + data.flow.unit,
-            height: data.height.value + ' ' + data.height.unit,
-            query_datetime: data.query_datetime,
-        });
-    });
-});
-
-router.get('/clarkfork', (req, res) => {
-    const site = '12353000'
-    const name = 'Clarkfork'
-    var query = new USGSQuery();
-    query.get(site, (data) => {
-        res.send({
-            _links: {
-                self: { href: "/api/rivers/clarkfork" },
-            },
-            name: name,
-            usgs_site_no: site,
-            temp: data.temp.value + ' ' + data.temp.unit,
-            flow: data.flow.value + ' ' + data.flow.unit,
-            height: data.height.value + ' ' + data.height.unit,
-            query_datetime: data.query_datetime,
-        });
-    });
-    
+    })
 });
 
 module.exports = router;

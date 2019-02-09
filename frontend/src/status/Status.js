@@ -7,6 +7,7 @@ class RiverStatus extends Component {
         super(props);
         this.state = {
             _links: {},
+            rivers: [],
             showAddRiverForm: false,
         }
 
@@ -40,11 +41,6 @@ class RiverStatus extends Component {
     }
 
     render() {
-        var rivers = {};
-        Object.keys(this.state._links).slice(1).forEach(link => {
-            rivers[link] = <River key={link} href={this.state._links[link].href}/>
-        });
-
         return (
             <div className='content'>
                 <h1>River Status</h1>
@@ -78,7 +74,7 @@ class RiverStatus extends Component {
                 {/* TODO: add button dialog */}
 
                 <div className='ui cards'>
-                    {Object.keys(rivers).map(river=> rivers[river])}
+                    {this.state.rivers.map(river => <River key={`river-${river.id}`} href={`/api/rivers/${river.id}`}/>)}
                 </div>
             </div>
         );
@@ -179,6 +175,7 @@ class River extends React.Component {
                 <div className="content">
                     <div className='header'><i className="tag icon"></i>{this.state.name}</div>
                     <div className='meta'>
+                        <div className='ui label grey'>{this.state.state}</div>
                         <div className='ui label grey'>Updated: {this.state.query_datetime}</div>
                     </div>
                     <div clasname='description'>
