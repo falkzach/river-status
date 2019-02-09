@@ -7,7 +7,7 @@ var con = mysql.createConnection({
   database: 'process.env.MARIADB_DATABASE'
 });
 
-class Entry {
+class River {
     constructor(params) {
         this.pool = mysql.createPool({
             host: process.env.MARIADB_HOST,
@@ -16,13 +16,12 @@ class Entry {
             password: process.env.MARIADB_PASSWORD,
             database: process.env.MARIADB_DATABASE
           });
-
     }
 
     all(callback) {
       this.pool.getConnection((err, con) => {
         if (err) callback(err, null);
-        con.query('SELECT * FROM entries', (err, result, fields) => {
+        con.query('SELECT * FROM rivers', (err, result, fields) => {
           if (err) callback(err, null);
           callback(null, result);
         });
@@ -32,7 +31,7 @@ class Entry {
     add(data) {
       this.pool.getConnection((err, con) => {
         if (err) throw err;
-        con.query('INSERT INTO entries SET ?', data, (err, result, fields) => {
+        con.query('INSERT INTO rivers SET ?', data, (err, result, fields) => {
           if (err) throw err;
           return result;
         });
@@ -40,4 +39,4 @@ class Entry {
     }
 }
 
-module.exports = Entry;
+module.exports = River;

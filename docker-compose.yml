@@ -24,6 +24,7 @@ services:
       MARIADB_PORT: ${MARIADB_PORT}
       REDIS_HOST: redis
       REDIS_PORT: ${REDIS_PORT}
+      REDIS_KEEP_RIVER_TIME: 30
 
   # react frontend container
   frontend:

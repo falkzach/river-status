@@ -15,18 +15,16 @@ exports.setup = function(options, seedLink) {
 };
 
 exports.up = function(db) {
-  return db.createTable ('entries', {
+  return db.createTable ('rivers', {
     id: { type: 'int', primaryKey: true, autoIncrement: true },
-    date: { type: 'date' },
-    river: { type: 'string' },
-    section: { type: 'string' },
-    flow: { type: 'int' },
-    craft: { type: 'string' }
+    name: { type: 'string' },
+    state: { type: 'string' },
+    site_no: { type: 'string' }
   });
 };
 
 exports.down = function(db) {
-  return db.dropTable('entries');
+  return db.dropTable('rivers');
 };
 
 exports._meta = {

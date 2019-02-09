@@ -35,6 +35,7 @@ class USGSQuery {
             + "&siteStatus=" + this.sitesStatus;
     }
 
+    // TODO: refine redis to indavidual keys to improve performance?
     query_redis(callback) {
         try {
             let hash = 'river-status/' + this.site;
@@ -46,7 +47,7 @@ class USGSQuery {
                 callback(data);
             });
         } catch (err) {
-            console.log("Error querying redis")
+            console.log("Error querying redis:")
             console.log(err)
         }
     }
@@ -54,9 +55,9 @@ class USGSQuery {
     set_redis(data) {
         try {
             let hash = 'river-status/' + this.site;
-            this.redis_client.set(hash, JSON.stringify(data), 'EX', 30);
+            this.redis_client.set(hash, JSON.stringify(data), 'EX', process.env.REDIS_KEEP_RIVER_TIME);
         } catch (err) {
-            console.log("Error setting redis cache " + hash + ": " + value + "\n");
+            console.log("Error setting redis cache " + hash + ": " + value + ":");
             console.log(err);
         }
     }
@@ -74,6 +75,7 @@ class USGSQuery {
                 var data = null;
                 try {
                     data = JSON.parse(body);// data empty?
+                    // TODO: write a more sophisticated parser
                     // this.temp = data['value']['timeSeries'][0]['values'][0]['value'][0]['value'];
                     this.flow = data['value']['timeSeries'][0]['values'][0]['value'][0]['value'];
                     this.height = data['value']['timeSeries'][1]['values'][0]['value'][0]['value'];
@@ -89,7 +91,7 @@ class USGSQuery {
                     };
                     callback(data);
                 } catch (err) {
-                    console.log("Error querying USGS API");
+                    console.log("Error querying USGS API:");
                     console.log(err);
                 }
             })

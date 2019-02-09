@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
 });
 
 router.get('/entries', (req, res) => {
-     entryModel.all(function (err, result) {
+     entryModel.all((err, result) => {
          if (err) console.log("Database error!");
          else {
             res.send({
