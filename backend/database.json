@@ -1,10 +1,10 @@
 {
     "dev": {
         "driver": "mysql",
-        "user": "river_log",
-        "password": "changeme",
-        "host": "mariadb",
-        "port": 3306,
-        "database": "river_log"
+        "user": {"ENV": "MARIADB_USER"},
+        "password": {"ENV": "MARIADB_PASSWORD"},
+        "host": {"ENV": "MARIADB_HOST"},
+        "port": {"ENV": "MARIADB_PORT"},
+        "database": {"ENV": "MARIADB_DATABASE"}
       }
 }
