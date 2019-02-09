@@ -1,7 +1,7 @@
 const express = require('express');
 var router = express.Router();
 
-const USGSQuery = require('../USGSQuery.js');
+const USGSQuery = require('../usgs/USGSQuery.js');
 var river = require('../models/River')
 var riverModel = new river();
 
