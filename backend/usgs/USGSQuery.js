@@ -27,18 +27,18 @@ class USGSQuery {
         });
     }
     
-    build_query_url() {
-        this.url = this.base_url
+    get_query_url(site) {
+        return this.base_url
             + "format=" + this.format
-            + "&sites=" + this.site
+            + "&sites=" + site
             + "&parameterCd=" + this.parameters
             + "&siteStatus=" + this.sitesStatus;
     }
 
     // TODO: refine redis to indavidual keys to improve performance?
-    query_redis(callback) {
+    query_redis(site, callback) {
         try {
-            let hash = 'river-status/' + this.site;
+            let hash = 'river-status/' + site;
             this.redis_client.get(hash, function(err, reply) {
                 var data = null;
                 if (reply !== null) {
@@ -52,9 +52,9 @@ class USGSQuery {
         }
     }
 
-    set_redis(data) {
+    set_redis(site, data) {
         try {
-            let hash = 'river-status/' + this.site;
+            let hash = 'river-status/' + site;
             this.redis_client.set(hash, JSON.stringify(data), 'EX', process.env.REDIS_KEEP_RIVER_TIME);
         } catch (err) {
             console.log("Error setting redis cache " + hash + ": " + value + ":");
@@ -62,8 +62,9 @@ class USGSQuery {
         }
     }
 
-    query_USGS_api(callback) {
-        https.get(this.url, (res) => {
+    query_USGS_api(site, callback) {
+        let url = this.get_query_url(site);
+        https.get(url, (res) => {
             var body = '';
 
             res.on('data', (chunk) => {
@@ -99,13 +100,10 @@ class USGSQuery {
     }
 
     get(site, callback) {
-        this.site = site;
-        this.build_query_url();
-
-        this.query_redis((data) => {
+        this.query_redis(site, (data) => {
             if (data == null) {
-                this.query_USGS_api((data) => {
-                    this.set_redis(data);
+                this.query_USGS_api(site, (data) => {
+                    this.set_redis(site, data);
                     callback(data);
                 });
             } else {
