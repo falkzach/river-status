@@ -13,3 +13,4 @@ services:
     command: yarn build
     environment:
       CHOKIDAR_USEPOLLING: 'false'
+      HOST: 'www.riverstatus.com'

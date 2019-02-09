@@ -62,14 +62,14 @@ class USGSQuery {
     }
 
     query_USGS_api(callback) {
-        https.get(this.url, function(res) {
+        https.get(this.url, (res) => {
             var body = '';
 
-            res.on('data', function(chunk) {
+            res.on('data', (chunk) => {
                 body += chunk;
             })
             
-            res.on('end', function() {
+            res.on('end', () => {
                 var newDate = new Date();
                 var data = null;
                 try {
@@ -100,11 +100,10 @@ class USGSQuery {
         this.site = site;
         this.build_query_url();
 
-        let that = this;
-        this.query_redis(function(data) {
+        this.query_redis((data) => {
             if (data == null) {
-                that.query_USGS_api(function(data) {
-                    that.set_redis(data);
+                this.query_USGS_api((data) => {
+                    this.set_redis(data);
                     callback(data);
                 });
             } else {
