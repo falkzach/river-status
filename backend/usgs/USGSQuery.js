@@ -87,7 +87,7 @@ class USGSQuery {
                     var data = {
                         temp: {value: this.temp, unit: this.temp_unit},
                         flow: {value: this.flow, unit: this.flow_unit},
-                        height: {value: this.height, unit: this.flow_unit},
+                        height: {value: this.height, unit: this.height_unit},
                         query_datetime: newDate.toLocaleString()
                     };
                     callback(data);
