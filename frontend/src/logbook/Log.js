@@ -104,7 +104,7 @@ class Log extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                    {this.state.entries.map(entry => <Entry key={`entry-${entry.id}`} entry={entry} />)}
+                    {this.state.entries.map(entry => <Entry key={`entry-${entry.id}`} {...entry} />)}
                     </tbody>
                 </table>
             </div>
@@ -184,12 +184,12 @@ class Entry extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: props.entry.id,
-            date: props.entry.date,
-            river: props.entry.river,
-            section: props.entry.section,
-            flow: props.entry.flow,
-            craft: props.entry.craft,
+            id: props.id,
+            date: props.date,
+            river: props.river,
+            section: props.section,
+            flow: props.flow,
+            craft: props.craft,
         }
     }
 
