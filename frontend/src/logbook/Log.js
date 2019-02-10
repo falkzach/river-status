@@ -2,17 +2,17 @@ import React, { Component } from 'react';
 
 import {Button, Icon, Input} from 'semantic-ui-react'
 
-let today = new Date();
-
 class Log extends Component {
     constructor(props) {
         super(props);
         this.state = {
             showAddEntryForm: false,
+            entries: [],
         };
 
         this._onAddEntryClick = this._onAddEntryClick.bind(this);
         this._onCancelEntryClick = this._onCancelEntryClick.bind(this);
+        this.handleAddEntry = this.handleAddEntry.bind(this);
     }
 
     _onAddEntryClick() {
@@ -27,12 +27,12 @@ class Log extends Component {
         });
     }
 
-    componentDidMount() {
-        this.getLogbook()
+    componentDidMount = async() => {
+        await this.getLogbook()
             .then(res => this.setState(res))
             .catch(err => console.log(err))
 
-        this.getEntries()
+        await this.getEntries()
             .then(res => this.setState(res))
             .catch(err => console.log(err))
     }
@@ -51,23 +51,47 @@ class Log extends Component {
         return body;
     }
 
-    render() {
-        var entries = {};
-        // Object.keys(this.state.entries).forEach(entry => {
-        //     entries[entry.id] = 
-        //     <Entry 
-        //         date={entry.date} 
-        //         river={entry.river} 
-        //         section={entry.section}
-        //         flow={entry.flow}
-        //         craft={entry.craft}>
-        //     </Entry>
-        // });
+    handleAddEntry() {
+        this.setState({
+            showAddEntryForm: false,
+        });
+        this.getEntries()
+        .then(res => this.setState(res))
+        .catch(err => console.log(err))
+    }
 
+
+    render() {
         return (
             <div className='content'>
                 <h1>River Log</h1>
                 <p>{this.state.headline}</p>
+                <h2>Log Entries</h2>
+                <div className='ui buttons'>
+                    <Button size='small' color={!this.state.showAddEntryForm ?'blue':'grey'} onClick={this._onAddEntryClick}>
+                        <Icon name='add' />
+                        Add New Entry
+                    </Button>
+                    {
+                        this.state.showAddEntryForm ?
+                        <Button size='small' color='yellow' onClick={this._onCancelEntryClick}>
+                            <Icon name='cancel' />
+                            Cancel
+                        </Button>
+                        :
+                        null
+                    }
+                    
+                </div>
+                <div>
+                    {
+                        this.state.showAddEntryForm ?
+                        <div>
+                            <AddEntry handleAddEntry={this.handleAddEntry} /> 
+                        </div>
+                        :null
+                    }
+                </div>
 
                 <table>
                     <thead>
@@ -80,71 +104,13 @@ class Log extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                    {Object.keys(entries).map(entry=> entries[entry])}
+                    {this.state.entries.map(entry => <Entry key={`entry-${entry.id}`} entry={entry} />)}
                     </tbody>
                 </table>
-
-                <div>
-                    {
-                        !this.state.showAddEntryForm ?
-                        <Button size='small' color='blue' onClick={this._onAddEntryClick}>
-                            <Icon name='add' />
-                            Add New Entry
-                        </Button>
-                        :
-                        <Button size='small' color='yellow' onClick={this._onCancelEntryClick}>
-                            <Icon name='cancel' />
-                            Cancel
-                        </Button>
-                    }
-                </div>
-                <div>
-                    {
-                        this.state.showAddEntryForm ?
-                        <div>
-                            <AddEntry /> 
-                        </div>
-                        :null
-                    }
-                </div>
-
             </div>
         );
     }
 
-};
-
-class Entry extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            date: props.date,
-            river: props.river,
-            section: props.section,
-            flow: props.flow,
-            craft: props.craft,
-        }
-    }
-
-    componentDidMount() {
-
-    }
-
-    getEntry = async() => {
-
-    }
-
-    return() {
-        return (
-            <tr className='entry'>
-                <td>{this.state.date}</td>
-                <td>{this.state.river}</td>
-                <td>{this.state.section}</td>
-                <td>{this.state.flow}</td>
-                <td>{this.state.craft}</td>
-            </tr>
-        );
-    }
 };
 
 class AddEntry extends React.Component {
@@ -186,10 +152,8 @@ class AddEntry extends React.Component {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.state.formValues),
           }).then(res => {
-                if (res.status !== 200) {
-
-                } else {
-
+                if (res.status === 200) {
+                    this.props.handleAddEntry();
                 }
           });
     }
@@ -215,5 +179,35 @@ class AddEntry extends React.Component {
         );
     }
 }
+
+class Entry extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            id: props.entry.id,
+            date: props.entry.date,
+            river: props.entry.river,
+            section: props.entry.section,
+            flow: props.entry.flow,
+            craft: props.entry.craft,
+        }
+    }
+
+    componentDidMount() {
+
+    }
+
+    render() {
+        return (
+            <tr className={`entry-${this.state.id}`}>
+                <td>{this.state.date}</td>
+                <td>{this.state.river}</td>
+                <td>{this.state.section}</td>
+                <td>{this.state.flow}</td>
+                <td>{this.state.craft}</td>
+            </tr>
+        );
+    }
+};
 
 export default Log;

@@ -16,6 +16,7 @@ class Entry {
       this.pool.getConnection((err, con) => {
         if (err) callback(err, null);
         con.query('SELECT * FROM entries', (err, result, fields) => {
+          con.release();
           if (err) callback(err, null);
           callback(null, result);
         });
@@ -26,6 +27,7 @@ class Entry {
       this.pool.getConnection((err, con) => {
         if (err) throw err;
         con.query('INSERT INTO entries SET ?', data, (err, result, fields) => {
+          con.release();
           if (err) throw err;
           return result;
         });

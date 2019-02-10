@@ -82,18 +82,21 @@ class RiverStatus extends Component {
                 <p>{this.props.headline}</p>
 
                 <div className='ui buttons'>
-                    {
-                        !this.state.showAddRiverForm ?
-                        <Button size='small' color='blue' onClick={this._onAddRiverClick}>
+                        
+                        <Button size='small' color={!this.state.showAddRiverForm ?'blue':'grey'} onClick={this._onAddRiverClick}>
                             <Icon name='add' />
                             Add River
                         </Button>
-                        :
-                        <Button size='small' color='yellow' onClick={this._onCancelRiverClick}>
-                            <Icon name='cancel' />
-                            Cancel
-                        </Button>
-                    }
+                        {
+                            this.state.showAddRiverForm ?
+                            <Button size='small' color='yellow' onClick={this._onCancelRiverClick}>
+                                <Icon name='cancel' />
+                                Cancel
+                            </Button>
+                            :
+                            null
+                        }
+ 
                 </div>
 
                 <div>
@@ -106,10 +109,8 @@ class RiverStatus extends Component {
                     }
                 </div>
 
-                {/* TODO: add button dialog */}
-
                 <div className='ui cards'>
-                    {this.state.rivers.map(river => <River key={`river-${river.id}`} href={`/api/rivers/${river.id}`}/>)}
+                {this.state.rivers.map(river => <River key={`river-${river.id}`} href={`/api/rivers/${river.id}`}/>)}
                 </div>
             </div>
         );
@@ -153,7 +154,7 @@ class AddRiver extends React.Component {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.state.formValues),
           }).then(res => {
-                if (res.status == 200) {
+                if (res.status === 200) {
                     this.props.handleAddRiver();
                 }
           });
@@ -184,11 +185,11 @@ class River extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: '',
-            usgs_site_no: '',
-            flow: '',
-            height: '',
-            query_datetime: '',
+            name: props.name,
+            usgs_site_no: props.usgs_site_no,
+            flow: props.flow,
+            height: props.height,
+            query_datetime: props.query_datetime,
         }
     }   
 
