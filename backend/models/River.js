@@ -15,6 +15,7 @@ class River {
       this.pool.getConnection((err, con) => {
         if (err) callback(err, null);
         con.query('SELECT * FROM rivers', (err, result, fields) => {
+          con.release();
           if (err) callback(err, null);
           callback(null, result);
         });
@@ -25,6 +26,7 @@ class River {
       this.pool.getConnection((err, con) => {
         if (err) throw err;
         con.query('INSERT INTO rivers SET ?', data, (err, result, fields) => {
+          con.release();
           if (err) throw err;
           return result;
         });
@@ -35,6 +37,7 @@ class River {
       this.pool.getConnection((err, con) => {
         if (err) callback(err, null);
         con.query(`SELECT * FROM rivers WHERE id=${data.id}`, (err, result, fields) => {
+          con.release();
           if (err) callback(err, null);
           callback(null, result);
         });

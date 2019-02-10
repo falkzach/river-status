@@ -2,6 +2,31 @@ import React, { Component } from 'react';
 
 import {Button, Icon, Input} from 'semantic-ui-react'
 
+class Status extends Component {
+    state = {
+        response: '',
+    };
+
+    componentDidMount() {
+        this.callApi()
+            .then(res => this.setState({ response: res.headline }))
+            .catch(err => console.log(err));
+    }
+
+    callApi = async() => {
+        const response = await fetch('/api/hello');
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body;
+    }
+
+    render() {
+        return (
+        <RiverStatus headline={this.state.response} />
+        );
+    }
+}
+
 class RiverStatus extends Component {
     constructor(props) {
         super(props);
@@ -13,6 +38,7 @@ class RiverStatus extends Component {
 
         this._onAddRiverClick = this._onAddRiverClick.bind(this);
         this._onCancelRiverClick = this._onCancelRiverClick.bind(this);
+        this.handleAddRiver = this.handleAddRiver.bind(this);
     }
 
     _onAddRiverClick() {
@@ -40,6 +66,15 @@ class RiverStatus extends Component {
         return body;
     }
 
+    handleAddRiver() {
+        this.setState({
+            showAddRiverForm: false,
+        });
+        this.getRivers()
+        .then(res => this.setState(res))
+        .catch(err => console.log(err))
+    }
+
     render() {
         return (
             <div className='content'>
@@ -65,7 +100,7 @@ class RiverStatus extends Component {
                     {
                         this.state.showAddRiverForm ?
                         <div>
-                            <AddRiver showMe = {this.showAddRiverForm}/> 
+                            <AddRiver handleAddRiver={this.handleAddRiver}/> 
                         </div>
                         :null
                     }
@@ -118,12 +153,11 @@ class AddRiver extends React.Component {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.state.formValues),
           }).then(res => {
-                if (res.status !== 200) {
-                    this.props.showAddRiverForm = false;
-                } else {
-
+                if (res.status == 200) {
+                    this.props.handleAddRiver();
                 }
           });
+        
     }
 
     render() {
@@ -188,30 +222,5 @@ class River extends React.Component {
         );
     }
 };
-
-class Status extends Component {
-    state = {
-        response: '',
-    };
-
-    componentDidMount() {
-        this.callApi()
-            .then(res => this.setState({ response: res.headline }))
-            .catch(err => console.log(err));
-    }
-
-    callApi = async() => {
-        const response = await fetch('/api/hello');
-        const body = await response.json();
-        if (response.status !== 200) throw Error(body.message);
-        return body;
-    }
-
-    render() {
-        return (
-        <RiverStatus headline={this.state.response} />
-        );
-    }
-}
 
 export default Status;
