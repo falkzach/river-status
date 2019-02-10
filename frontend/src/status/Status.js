@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import {Button, Icon, Input} from 'semantic-ui-react'
+import {Button, Icon, Input, Popup} from 'semantic-ui-react'
 
 class Status extends Component {
     state = {
@@ -167,7 +167,9 @@ class AddRiver extends React.Component {
                 <Input type='text' id='river-name' name='name' placeholder='River' required value={this.state.formValues.river} onChange={this.handleChange} />
                 <label>State:</label>
                 <Input type='text' id='river-state' name='state' placeholder='MT' required value={this.state.formValues.section} onChange={this.handleChange} />
-                <label>USGS Gauge Site Number:</label>
+                <a href='https://waterdata.usgs.gov/nwis/uv' target='_blank' rel='noopener noreferrer'>
+                    <Popup trigger={<label>USGS Gauge Site:</label>} header='Instructions' content='Acquire a site number from: https://waterdata.usgs.gov/nwis/uv'/>
+                </a>
                 <Input type='number' id='river-site' name='site_no' placeholder='12340000'  required value={this.state.formValues.flow} onChange={this.handleChange} />
                 <Button type='submit' form='add-river-form' value='Submit' size='small' color='green' >
                     <Icon name='add' />
