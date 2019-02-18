@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-
-import {Button, Icon, Input, Popup} from 'semantic-ui-react'
+import { Link } from 'react-router-dom';
+import {Button, Card, Header, Icon, Input, Label, Popup} from 'semantic-ui-react';
 
 class Status extends Component {
     state = {
@@ -14,7 +14,7 @@ class Status extends Component {
     }
 
     callApi = async() => {
-        const response = await fetch('/api/hello');
+        const response = await fetch(`${this.props.backend_api}/api/hello`);
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
@@ -22,7 +22,7 @@ class Status extends Component {
 
     render() {
         return (
-        <RiverStatus headline={this.state.response} />
+        <RiverStatus headline={this.state.response} backend_api={this.props.backend_api} />
         );
     }
 }
@@ -60,7 +60,7 @@ class RiverStatus extends Component {
     }
 
     getRivers = async() => {
-        const response = await fetch('/api/rivers');
+        const response = await fetch(`${this.props.backend_api}/api/rivers`);
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
@@ -78,9 +78,13 @@ class RiverStatus extends Component {
     render() {
         return (
             <div className='content'>
-                <h1>River Status</h1>
+                <Header as='h1' className='horizontal divider'>River Status</Header>
                 <p>{this.props.headline}</p>
 
+                <Header as='h2' className='horizontal divider'>Your Favorite Rivers</Header>
+                <Link to="/authenticate">Log-In</Link> to see your favorite rivers!
+
+                <Header as='h2' className='horizontal divider'>All Rivers</Header>
                 <div className='ui buttons'>
                         
                         <Button size='small' color={!this.state.showAddRiverForm ?'blue':'grey'} onClick={this._onAddRiverClick}>
@@ -109,9 +113,9 @@ class RiverStatus extends Component {
                     }
                 </div>
 
-                <div className='ui cards'>
-                {this.state.rivers.map(river => <River key={`river-${river.id}`} href={`/api/rivers/${river.id}`}/>)}
-                </div>
+                <Card.Group>
+                {this.state.rivers.map(river => <River key={`river-${river.id}`} backend_api={this.props.backend_api} href={`/api/rivers/${river.id}`}/>)}
+                </Card.Group>
             </div>
         );
     }
@@ -149,7 +153,7 @@ class AddRiver extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        fetch('/api/rivers/add', {
+        fetch(`${this.state.BACKEND_API}/api/rivers/add`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.state.formValues),
@@ -200,7 +204,7 @@ class River extends React.Component {
     }
 
     getRiver = async() => {
-        const response = await fetch(this.props.href);
+        const response = await fetch(`${this.props.backend_api}${this.props.href}`);
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
@@ -208,20 +212,27 @@ class River extends React.Component {
 
     render() {
         return (
-            <div className='ui card' id={'river-' + this.state.name}>
-                <div className="content">
-                    <div className='header'><i className="tag icon"></i>{this.state.name}</div>
-                    <div className='meta'>
-                        <div className='ui label grey'>{this.state.state}</div>
-                        <div className='ui label grey'>Updated: {this.state.query_datetime}</div>
-                    </div>
-                    <div clasname='description'>
-                        <div className='ui label blue'>Flow: {this.state.flow}</div>
-                        <div className='ui label blue'>Height: {this.state.height}</div>
-                    </div>
-                </div>
-
-            </div>
+            <Card id={'river-' + this.state.name}>
+                <Card.Content>
+                    <Card.Header><Icon className="tag" />{this.state.name}</Card.Header>
+                    <Card.Meta>
+                        <Label color='grey'>{this.state.state}</Label>
+                        {/* <div className='ui label grey'>Updated: {this.state.query_datetime}</div> */}
+                        <Button size='mini'>
+                            <Icon name='heart outline' />
+                            Favorite
+                        </Button>
+                        <Button size='mini'>
+                            <Icon name='book' />
+                            Log a Day
+                        </Button>
+                    </Card.Meta>
+                    <Card.Description>
+                        <Label color='blue'>Flow: {this.state.flow}</Label>
+                        <Label color='blue'>Height: {this.state.height}</Label>
+                    </Card.Description>
+                </Card.Content>
+            </Card>
         );
     }
 };

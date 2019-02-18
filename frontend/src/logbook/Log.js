@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-
-import {Button, Icon, Input} from 'semantic-ui-react'
+import { Link } from 'react-router-dom';
+import {Button, Header, Icon, Input, Label, Table} from 'semantic-ui-react';
 
 class Log extends Component {
     constructor(props) {
@@ -38,14 +38,14 @@ class Log extends Component {
     }
 
     getLogbook = async() => {
-        const response = await fetch('/api/log');
+        const response = await fetch(`${this.props.backend_api}/api/log`);
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
     }
 
     getEntries= async() => {
-        const response = await fetch('/api/log/entries');
+        const response = await fetch(`${this.props.backend_api}/api/log/entries`);
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
@@ -64,10 +64,10 @@ class Log extends Component {
     render() {
         return (
             <div className='content'>
-                <h1>River Log</h1>
+                <Header as='h1' className='horizontal divider'>River Log</Header>
                 <p>{this.state.headline}</p>
-                <h2>Log Entries</h2>
-                <div className='ui buttons'>
+                <Header as='h2' className='horizontal divider'>Log Entries</Header>
+                <Button.Group>
                     <Button size='small' color={!this.state.showAddEntryForm ?'blue':'grey'} onClick={this._onAddEntryClick}>
                         <Icon name='add' />
                         Add New Entry
@@ -81,32 +81,31 @@ class Log extends Component {
                         :
                         null
                     }
-                    
-                </div>
+                </Button.Group>
                 <div>
                     {
                         this.state.showAddEntryForm ?
                         <div>
-                            <AddEntry handleAddEntry={this.handleAddEntry} /> 
+                            <AddEntry handleAddEntry={this.handleAddEntry} backend_api={this.props.backend_api} /> 
                         </div>
                         :null
                     }
                 </div>
 
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>River</th>
-                            <th>Section</th>
-                            <th>Flow</th>
-                            <th>Craft</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+                <Table>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell>Date</Table.HeaderCell>
+                            <Table.HeaderCell>River</Table.HeaderCell>
+                            <Table.HeaderCell>Section</Table.HeaderCell>
+                            <Table.HeaderCell>Flow</Table.HeaderCell>
+                            <Table.HeaderCell>Craft</Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
                     {this.state.entries.map(entry => <Entry key={`entry-${entry.id}`} {...entry} />)}
-                    </tbody>
-                </table>
+                    </Table.Body>
+                </Table>
             </div>
         );
     }
@@ -147,7 +146,7 @@ class AddEntry extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        fetch('/api/log/entries/add', {
+        fetch(`${this.props.backend_api}/api/log/entries/add`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.state.formValues),
@@ -161,15 +160,15 @@ class AddEntry extends React.Component {
     render() {
         return (
             <form className='form' id='add-entry-form' onSubmit={this.handleSubmit}>
-                <label>Date:</label>
+                <Label>Date:</Label>
                 <Input type='date' id='entry-date' name='date' placeholder='Date' required value={this.state.formValues.date} onChange={this.handleChange} />
-                <label>River:</label>
+                <Label>River:</Label>
                 <Input type='text' id='entry-river' name='river' placeholder='River' required value={this.state.formValues.river} onChange={this.handleChange} />
-                <label>Section:</label>
+                <Label>Section:</Label>
                 <Input type='text' id='entry-section' name='section' placeholder='Section' required value={this.state.formValues.section} onChange={this.handleChange} />
-                <label>Flow:</label>
+                <Label>Flow:</Label>
                 <Input type='number' id='entry-flow' name='flow' placeholder='Flow' step='1.0' required value={this.state.formValues.flow} onChange={this.handleChange} />
-                <label>Craft:</label>
+                <Label>Craft:</Label>
                 <Input type='text' id='entry-craft' name='craft' placeholder='Craft' required value={this.state.craft} onChange={this.handleChange} />
                 <Button type='submit' form='add-entry-form' value='Submit' size='small' color='green' >
                     <Icon name='add' />
@@ -199,13 +198,13 @@ class Entry extends React.Component {
 
     render() {
         return (
-            <tr className={`entry-${this.state.id}`}>
-                <td>{this.state.date}</td>
-                <td>{this.state.river}</td>
-                <td>{this.state.section}</td>
-                <td>{this.state.flow}</td>
-                <td>{this.state.craft}</td>
-            </tr>
+            <Table.Row className={`entry-${this.state.id}`}>
+                <Table.Cell>{this.state.date}</Table.Cell>
+                <Table.Cell>{this.state.river}</Table.Cell>
+                <Table.Cell>{this.state.section}</Table.Cell>
+                <Table.Cell>{this.state.flow}</Table.Cell>
+                <Table.Cell>{this.state.craft}</Table.Cell>
+            </Table.Row>
         );
     }
 };

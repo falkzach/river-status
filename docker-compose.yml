@@ -41,7 +41,8 @@ services:
       - backend
     environment:
       CHOKIDAR_USEPOLLING: 'true'
-      API_PORT: ${BACKEND_PORT}
+      REACT_APP_API_URL: 'http://localhost'
+      REACT_APP_API_PORT: ${BACKEND_PORT}
 
   # mariadb
   mariadb:

@@ -1,6 +1,11 @@
 # River Status and Log
 
-## Run
+## Development
 ```
 docker-compose up --build
+```
+
+## Deployment
+```
+docker-compose deploy --build
 ```
