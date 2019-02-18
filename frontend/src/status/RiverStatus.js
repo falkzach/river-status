@@ -90,7 +90,7 @@ class RiverStatus extends Component {
                     {
                         this.state.showAddRiverForm ?
                         <div>
-                            <AddRiver handleAddRiver={this.handleAddRiver}/> 
+                            <AddRiver handleAddRiver={this.handleAddRiver} backend_api={this.props.backend_api} /> 
                         </div>
                         :null
                     }

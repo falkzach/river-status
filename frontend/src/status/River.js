@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Button, Card, Icon, Label} from 'semantic-ui-react';
+import {Button, Card, Confirm, Icon, Label} from 'semantic-ui-react';
 
 class River extends Component {
     constructor(props) {
@@ -10,8 +10,12 @@ class River extends Component {
             flow: props.flow,
             height: props.height,
             query_datetime: props.query_datetime,
+            open_delete: false
         }
-    }   
+    }
+
+    open_delete = () => this.setState({open_delete: true });
+    close_delete = () => this.setState({open_delete: false });
 
     componentDidMount() {
         this.getRiver()
@@ -33,6 +37,7 @@ class River extends Component {
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         if (response.status === 200) {
+            this.close_delete();
             this.props.handleDeleteRiver();
         }
         return body;
@@ -52,9 +57,17 @@ class River extends Component {
                         <Button size='mini'>
                             <Icon name='book' />Log a Day
                         </Button>
-                        <Button size='mini' color='red' onClick={this.deleteRiver}>
+                        <Button size='mini' color='red' onClick={this.open_delete}>
                             <Icon name='delete' />Remove
                         </Button>
+                        <Confirm 
+                            header={`Delete River: ${this.state.name}`}
+                            confirmButton='Delete'
+                            cancelButton ='Cancel'
+                            open={this.state.open_delete}
+                            onCancel={this.close_delete}
+                            onConfirm={this.deleteRiver}
+                        />
                     </Card.Meta>
                     <Card.Description>
                         <Label color='blue'>Flow: {this.state.flow}</Label>

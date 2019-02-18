@@ -33,7 +33,7 @@ class AddRiver extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        fetch(`${this.state.BACKEND_API}/api/rivers/add`, {
+        fetch(`${this.props.backend_api}/api/rivers/add`, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(this.state.formValues),
