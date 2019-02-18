@@ -56,6 +56,17 @@ router.route('/:id').get((req, res) => {
             });
         });
     })
-});
+})
+
+.delete((req, res) => {
+    riverModel.delete({id: req.params.id}, (err, response) => {
+        res.send({
+            _links: {
+                self: { href: "/api/rivers/:id" },
+            },
+        })
+    });
+
+})
 
 module.exports = router;

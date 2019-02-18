@@ -17,6 +17,7 @@ class RiverStatus extends Component {
         this._onAddRiverClick = this._onAddRiverClick.bind(this);
         this._onCancelRiverClick = this._onCancelRiverClick.bind(this);
         this.handleAddRiver = this.handleAddRiver.bind(this);
+        this.handleDeleteRiver = this.handleDeleteRiver.bind(this);
     }
 
     _onAddRiverClick() {
@@ -48,6 +49,12 @@ class RiverStatus extends Component {
         this.setState({
             showAddRiverForm: false,
         });
+        this.getRivers()
+        .then(res => this.setState(res))
+        .catch(err => console.log(err))
+    }
+
+    handleDeleteRiver()  {
         this.getRivers()
         .then(res => this.setState(res))
         .catch(err => console.log(err))
@@ -90,7 +97,8 @@ class RiverStatus extends Component {
                 </div>
 
                 <Card.Group>
-                {this.state.rivers.map(river => <River key={`river-${river.id}`} backend_api={this.props.backend_api} href={`/api/rivers/${river.id}`}/>)}
+                {this.state.rivers.map(river => 
+                <River key={`river-${river.id}`} backend_api={this.props.backend_api} href={`/api/rivers/${river.id}`} handleDeleteRiver={this.handleDeleteRiver}/>)}
                 </Card.Group>
             </div>
         );

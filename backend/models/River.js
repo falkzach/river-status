@@ -43,6 +43,17 @@ class River {
         });
       });
     }
+
+    delete(data, callback) {
+      this.pool.getConnection((err, con) => {
+        if (err) callback(err, null);
+        con.query(`DELETE FROM rivers WHERE id=${data.id}`, (err, result, fields) => {
+          con.release();
+          if (err) callback(err, null);
+          callback(null, result);
+        });
+      });
+    }
 }
 
 module.exports = River;

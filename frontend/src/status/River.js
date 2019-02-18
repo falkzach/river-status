@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import {Button, Card, Icon, Label} from 'semantic-ui-react';
+import { async } from 'rxjs/internal/scheduler/async';
 
 class River extends Component {
     constructor(props) {
@@ -26,6 +27,18 @@ class River extends Component {
         return body;
     }
 
+    deleteRiver = async() => {
+        const response = await fetch(`${this.props.backend_api}${this.props.href}`, {
+            method: 'DELETE'
+        });
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        if (response.status === 200) {
+            this.props.handleDeleteRiver();
+        }
+        return body;
+    }
+
     render() {
         return (
             <Card id={'river-' + this.state.name}>
@@ -40,7 +53,7 @@ class River extends Component {
                         <Button size='mini'>
                             <Icon name='book' />Log a Day
                         </Button>
-                        <Button size='mini' color='red'>
+                        <Button size='mini' color='red' onClick={this.deleteRiver}>
                             <Icon name='delete' />Remove
                         </Button>
                     </Card.Meta>
