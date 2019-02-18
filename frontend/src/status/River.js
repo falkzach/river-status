@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {Button, Card, Icon, Label} from 'semantic-ui-react';
-import { async } from 'rxjs/internal/scheduler/async';
 
 class River extends Component {
     constructor(props) {
