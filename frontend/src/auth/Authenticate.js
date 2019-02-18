@@ -1,10 +1,21 @@
 import React, { Component } from 'react';
-
+import { Link } from 'react-router-dom';
 import {Button, Container, Divider, Header, Icon, Grid, Segment} from 'semantic-ui-react'
 
+import io from 'socket.io-client'
+
+import OAuth from './OAuth';
+
+const providers = ['google', 'facebook', 'twitter', 'github']
+
 class Authenticate extends Component {
-    state = {
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            
+        };
+        // this.socket = io(props.backend_api)
+    }
 
     componentDidMount() {
 
@@ -19,22 +30,11 @@ class Authenticate extends Component {
                     <Container textAlign='center'>
                         <Header as='h2' className='ui horizontal divider header'>OAuth 2.0 Providers</Header>
                         <Button.Group vertical >
-                            <Button size='large'>
-                                <Icon name='google' />
-                                Google
+                        {providers.map((provider, index) => {
+                            return <Button key={index} size='large'>
+                                <Icon name={provider} /> {provider.charAt(0).toUpperCase()+provider.slice(1)}
                             </Button>
-                            <Button size='large'>
-                                <Icon name='facebook' />
-                                Facebook
-                            </Button>
-                            <Button size='large'>
-                                <Icon name='twitter' />
-                                Twitter
-                            </Button>
-                            <Button size='large'>
-                                <Icon name='github' />
-                                Github
-                            </Button>
+                        })}
                         </Button.Group>
                     </Container>
                 </Container>

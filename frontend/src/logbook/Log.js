@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import {Button, Header, Icon, Input, Label, Table} from 'semantic-ui-react';
+import {Button, Card, Header, Icon, Input, Label, Table} from 'semantic-ui-react';
 
 class Log extends Component {
     constructor(props) {
@@ -69,14 +69,12 @@ class Log extends Component {
                 <Header as='h2' className='horizontal divider'>Log Entries</Header>
                 <Button.Group>
                     <Button size='small' color={!this.state.showAddEntryForm ?'blue':'grey'} onClick={this._onAddEntryClick}>
-                        <Icon name='add' />
-                        Add New Entry
+                        <Icon name='add' /> Add New Entry
                     </Button>
                     {
                         this.state.showAddEntryForm ?
                         <Button size='small' color='yellow' onClick={this._onCancelEntryClick}>
-                            <Icon name='cancel' />
-                            Cancel
+                            <Icon name='cancel' /> Cancel
                         </Button>
                         :
                         null
@@ -159,22 +157,23 @@ class AddEntry extends React.Component {
 
     render() {
         return (
-            <form className='form' id='add-entry-form' onSubmit={this.handleSubmit}>
-                <Label>Date:</Label>
-                <Input type='date' id='entry-date' name='date' placeholder='Date' required value={this.state.formValues.date} onChange={this.handleChange} />
-                <Label>River:</Label>
-                <Input type='text' id='entry-river' name='river' placeholder='River' required value={this.state.formValues.river} onChange={this.handleChange} />
-                <Label>Section:</Label>
-                <Input type='text' id='entry-section' name='section' placeholder='Section' required value={this.state.formValues.section} onChange={this.handleChange} />
-                <Label>Flow:</Label>
-                <Input type='number' id='entry-flow' name='flow' placeholder='Flow' step='1.0' required value={this.state.formValues.flow} onChange={this.handleChange} />
-                <Label>Craft:</Label>
-                <Input type='text' id='entry-craft' name='craft' placeholder='Craft' required value={this.state.craft} onChange={this.handleChange} />
-                <Button type='submit' form='add-entry-form' value='Submit' size='small' color='green' >
-                    <Icon name='add' />
-                    Add
-                </Button>
-            </form>
+            <Card>
+                <form className='form' id='add-entry-form' onSubmit={this.handleSubmit}>
+                    <Label>Date:</Label>
+                    <Input type='date' id='entry-date' name='date' placeholder='Date' required value={this.state.formValues.date} onChange={this.handleChange} />
+                    <Label>River:</Label>
+                    <Input type='text' id='entry-river' name='river' placeholder='River' required value={this.state.formValues.river} onChange={this.handleChange} />
+                    <Label>Section:</Label>
+                    <Input type='text' id='entry-section' name='section' placeholder='Section' required value={this.state.formValues.section} onChange={this.handleChange} />
+                    <Label>Flow:</Label>
+                    <Input type='number' id='entry-flow' name='flow' placeholder='Flow' step='1.0' required value={this.state.formValues.flow} onChange={this.handleChange} />
+                    <Label>Craft:</Label>
+                    <Input type='text' id='entry-craft' name='craft' placeholder='Craft' required value={this.state.craft} onChange={this.handleChange} />
+                    <Button type='submit' form='add-entry-form' value='Submit' size='small' color='green' >
+                        <Icon name='add' /> Add
+                    </Button>
+                </form>
+            </Card>
         );
     }
 }

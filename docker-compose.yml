@@ -16,6 +16,7 @@ services:
     environment:
       PRODUCTION: 'false'
       CHOKIDAR_USEPOLLING: 'true'
+      SESSION_SECRET: ${SESSION_SECRET}
       MARIADB_ROOT_PASSWORD: ${MARIADB_ROOT_PASSWORD}
       MARIADB_DATABASE: ${MARIADB_DATABASE}
       MARIADB_USER: ${MARIADB_USERNAME}
@@ -41,6 +42,7 @@ services:
       - backend
     environment:
       CHOKIDAR_USEPOLLING: 'true'
+      # TODO: change to https
       REACT_APP_API_URL: 'http://localhost'
       REACT_APP_API_PORT: ${BACKEND_PORT}
 

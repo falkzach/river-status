@@ -10,20 +10,21 @@ import Authenticate from './auth/Authenticate.js';
 import './App.css';
 import 'semantic-ui-css/semantic.min.css';
 
-const BACKEND_API = '' + process.env.REACT_APP_API_URL + ':' + process.env.REACT_APP_API_PORT;
+const backend_api = process.env.REACT_APP_API_URL + ':' + process.env.REACT_APP_API_PORT;
 
-const App = () => 
-    <BrowserRouter>
+const App = () => {
+    return <BrowserRouter>
         <Container fluid className="river-log wrapper">
             <Container fluid>
                 <Header className='main-head'>River Status and Logbook</Header>
                 <Nav />
             </Container>
 
-            <Route exact path="/" component={() => <Status backend_api={BACKEND_API} />} />
-            <Route path="/Log" component={() => <Log backend_api={BACKEND_API} />} />
-            <Route path="/authenticate" component={() => <Authenticate backend_api={BACKEND_API} />} />
+            <Route exact path="/" component={() => <Status backend_api={backend_api} />} />
+            <Route path="/Log" component={() => <Log backend_api={backend_api} />} />
+            <Route path="/authenticate" component={() => <Authenticate backend_api={backend_api} />} />
         </Container>
     </BrowserRouter>
+}
 
 export default App;

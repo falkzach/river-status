@@ -88,14 +88,12 @@ class RiverStatus extends Component {
                 <div className='ui buttons'>
                         
                         <Button size='small' color={!this.state.showAddRiverForm ?'blue':'grey'} onClick={this._onAddRiverClick}>
-                            <Icon name='add' />
-                            Add River
+                            <Icon name='add' />Add River
                         </Button>
                         {
                             this.state.showAddRiverForm ?
                             <Button size='small' color='yellow' onClick={this._onCancelRiverClick}>
-                                <Icon name='cancel' />
-                                Cancel
+                                <Icon name='cancel' />Cancel
                             </Button>
                             :
                             null
@@ -167,20 +165,21 @@ class AddRiver extends React.Component {
 
     render() {
         return (
-            <form className='form' id='add-river-form' onSubmit={this.handleSubmit}>
-                <label>Name:</label>
-                <Input type='text' id='river-name' name='name' placeholder='River' required value={this.state.formValues.river} onChange={this.handleChange} />
-                <label>State:</label>
-                <Input type='text' id='river-state' name='state' placeholder='MT' required value={this.state.formValues.section} onChange={this.handleChange} />
-                <a href='https://waterdata.usgs.gov/nwis/uv' target='_blank' rel='noopener noreferrer'>
-                    <Popup trigger={<label>USGS Gauge Site:</label>} header='Instructions' content='Acquire a site number from: https://waterdata.usgs.gov/nwis/uv'/>
-                </a>
-                <Input type='number' id='river-site' name='site_no' placeholder='12340000'  required value={this.state.formValues.flow} onChange={this.handleChange} />
-                <Button type='submit' form='add-river-form' value='Submit' size='small' color='green' >
-                    <Icon name='add' />
-                    Add
-                </Button>
-            </form>
+            <Card>
+                <form className='form' id='add-river-form' onSubmit={this.handleSubmit}>
+                    <Label>Name:</Label>
+                    <Input type='text' id='river-name' name='name' placeholder='River' required value={this.state.formValues.river} onChange={this.handleChange} />
+                    <Label>State:</Label>
+                    <Input type='text' id='river-state' name='state' placeholder='MT' required value={this.state.formValues.section} onChange={this.handleChange} />
+                    <a href='https://waterdata.usgs.gov/nwis/uv' target='_blank' rel='noopener noreferrer'>
+                        <Popup trigger={<Label>USGS Gauge Site:</Label>} header='Instructions' content='Acquire a site number from: https://waterdata.usgs.gov/nwis/uv'/>
+                    </a>
+                    <Input type='number' id='river-site' name='site_no' placeholder='12340000'  required value={this.state.formValues.flow} onChange={this.handleChange} />
+                    <Button type='submit' form='add-river-form' value='Submit' size='small' color='green' >
+                        <Icon name='add' />Add
+                    </Button>
+                </form>
+            </Card>
         );
     }
 }
@@ -219,12 +218,10 @@ class River extends React.Component {
                         <Label color='grey'>{this.state.state}</Label>
                         {/* <div className='ui label grey'>Updated: {this.state.query_datetime}</div> */}
                         <Button size='mini'>
-                            <Icon name='heart outline' />
-                            Favorite
+                            <Icon name='heart outline' />Favorite
                         </Button>
                         <Button size='mini'>
-                            <Icon name='book' />
-                            Log a Day
+                            <Icon name='book' />Log a Day
                         </Button>
                     </Card.Meta>
                     <Card.Description>
