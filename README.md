@@ -2,6 +2,7 @@
 
 ## Development
 ```
+yarn install
 docker-compose up --build
 ```
 
